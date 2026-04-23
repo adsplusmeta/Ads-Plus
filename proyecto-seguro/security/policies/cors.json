@@ -1,0 +1,17 @@
+{
+  "comment": "CORS Policy — listar explícitamente cada origen permitido",
+  "allowed_origins": [
+    "https://tudominio.com",
+    "https://www.tudominio.com"
+  ],
+  "allowed_methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  "allowed_headers": ["Content-Type", "Authorization", "X-CSRF-Token"],
+  "exposed_headers": ["X-Total-Count"],
+  "credentials": true,
+  "max_age_seconds": 600,
+  "notes": [
+    "NUNCA usar wildcard (*) con credentials:true",
+    "Agregar nuevos dominios al array allowed_origins Y a ALLOWED_ORIGINS en .env",
+    "max_age limita el número de preflight requests — 600s es razonable"
+  ]
+}

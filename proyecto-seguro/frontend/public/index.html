@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- CSP: nonce es reemplazado en el servidor en cada request -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'nonce-{{NONCE}}';
+    style-src 'self' 'nonce-{{NONCE}}';
+    img-src 'self' data: https:;
+    font-src 'self' data:;
+    connect-src 'self' https://api.tudominio.com;
+    frame-ancestors 'none';
+    base-uri 'self';
+    form-action 'self';
+    upgrade-insecure-requests;
+    block-all-mixed-content;
+  " />
+
+  <!-- Prevent MIME sniffing -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <!-- Prevent clickjacking -->
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <!-- Referrer policy -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <title>App Segura</title>
+  <link rel="stylesheet" href="/static/css/main.css" nonce="{{NONCE}}" />
+</head>
+<body>
+  <noscript>Esta aplicación requiere JavaScript habilitado.</noscript>
+  <div id="root"></div>
+  <script src="/static/js/main.js" nonce="{{NONCE}}"></script>
+</body>
+</html>

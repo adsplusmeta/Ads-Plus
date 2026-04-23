@@ -1,0 +1,47 @@
+# Variables de entorno — NUNCA al repositorio
+.env
+.env.local
+.env.production
+backend/.env
+frontend/.env.local
+
+# Dependencias
+node_modules/
+*/node_modules/
+
+# Logs
+logs/
+*.log
+backend/logs/
+
+# Certificados SSL y llaves privadas
+security/certificates/*.pem
+security/certificates/*.key
+security/certificates/*.crt
+security/certificates/*.p12
+security/secrets/*
+!security/secrets/.gitkeep
+
+# Backups de base de datos
+database/backups/*.gz
+database/backups/*.enc
+
+# Build del frontend
+frontend/build/
+frontend/dist/
+
+# Cobertura de tests
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+
+# Prometheus y Grafana data
+monitoring/grafana/data/
+monitoring/prometheus/data/

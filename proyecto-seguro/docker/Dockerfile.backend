@@ -1,0 +1,33 @@
+# Usar versión exacta — 'latest' puede incluir cambios breaking sin aviso
+FROM node:20.11.0-alpine3.19
+
+# Crear usuario no-root — correr como root en contenedor es innecesario y riesgoso
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001 -G nodejs
+
+WORKDIR /app
+
+# Copiar solo manifests primero — permite cachear la capa de dependencias
+COPY package*.json ./
+
+# Solo dependencias de producción — excluye devDependencies (snyk, jest, etc.)
+RUN npm ci --only=production && \
+    npm cache clean --force && \
+    # Remover npm para reducir superficie de ataque
+    npm uninstall -g npm
+
+COPY --chown=nodejs:nodejs ../backend/src ./src
+
+# Eliminar archivos innecesarios
+RUN rm -rf tests/ docs/ *.md
+
+ENV NODE_ENV=production
+
+USER nodejs
+
+EXPOSE 5000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:5000/health', r => process.exit(r.statusCode === 200 ? 0 : 1))"
+
+CMD ["node", "src/server.js"]

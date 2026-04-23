@@ -1,0 +1,23 @@
+{
+  "comment": "Content Security Policy — actualizar cuando se agreguen CDNs o servicios externos",
+  "production": {
+    "default-src": ["'self'"],
+    "script-src": ["'self'"],
+    "style-src": ["'self'"],
+    "img-src": ["'self'", "data:", "https:"],
+    "font-src": ["'self'", "data:"],
+    "connect-src": ["'self'", "https://api.tudominio.com"],
+    "object-src": ["'none'"],
+    "frame-ancestors": ["'none'"],
+    "base-uri": ["'self'"],
+    "form-action": ["'self'"],
+    "upgrade-insecure-requests": true,
+    "block-all-mixed-content": true
+  },
+  "development": {
+    "default-src": ["'self'"],
+    "script-src": ["'self'", "'unsafe-eval'"],
+    "style-src": ["'self'", "'unsafe-inline'"],
+    "connect-src": ["'self'", "http://localhost:5000", "ws://localhost:3000"]
+  }
+}
