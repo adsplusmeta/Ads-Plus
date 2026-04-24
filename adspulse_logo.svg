@@ -1,0 +1,24 @@
+<svg width="100%" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" role="img" style="">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Logo AdsPulse</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Logo minimalista de AdsPulse con letra A estilizada y línea de pulso</desc>
+  
+  
+  
+  <!-- Círculo contenedor -->
+  <circle cx="340" cy="340" r="220" stroke-width="3" fill="none" style="fill:none;stroke:rgb(0, 102, 255);color:rgb(255, 255, 255);stroke-width:3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  
+  <!-- Letra A - Pierna izquierda -->
+  <path d="M 260 450 L 310 240" stroke-width="18" stroke-linecap="round" fill="none" style="fill:rgb(0, 102, 255);stroke:rgb(0, 102, 255);color:rgb(255, 255, 255);stroke-width:18px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  
+  <!-- Letra A - Pierna derecha -->
+  <path d="M 420 450 L 370 240" stroke-width="18" stroke-linecap="round" fill="none" style="fill:rgb(0, 102, 255);stroke:rgb(0, 102, 255);color:rgb(255, 255, 255);stroke-width:18px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  
+  <!-- Barra horizontal convertida en pulso ECG -->
+  <g stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" style="fill:rgb(0, 102, 255);stroke:rgb(0, 102, 255);color:rgb(255, 255, 255);stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <!-- Línea de pulso con picos característicos -->
+    <path d="M 270 340 L 300 340 L 310 315 L 325 365 L 340 305 L 355 365 L 370 315 L 380 340 L 410 340" style="fill:rgb(0, 102, 255);stroke:rgb(0, 102, 255);color:rgb(255, 255, 255);stroke-width:6px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  </g>
+  
+  <!-- Punto de énfasis en el pico central del pulso -->
+  <circle cx="340" cy="305" r="4" fill="#0066FF" style="fill:rgb(0, 102, 255);stroke:rgb(0, 102, 255);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+</svg>
