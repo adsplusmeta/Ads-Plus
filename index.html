@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AdsPulse — El dashboard que tus Meta Ads merecen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
 
 <!--
   DESIGN SYSTEM
@@ -1534,6 +1534,335 @@
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg-0); }
   ::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 3px; }
+
+  /* ══════════════════════════════════════════
+     PROMO POPUP
+  ══════════════════════════════════════════ */
+  @keyframes popupEnter {
+    0%   { opacity: 0; transform: scale(0.85) translateY(20px); }
+    60%  { transform: scale(1.02) translateY(-2px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes popupExit {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.9) translateY(10px); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(0,180,216,0.2); }
+    50%       { box-shadow: 0 0 20px rgba(0,180,216,0.5); }
+  }
+  @keyframes overlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes checkIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes toastOut {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-16px); }
+  }
+
+  /* Overlay */
+  #promo-overlay {
+    position: fixed; inset: 0; z-index: 9998;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    animation: overlayIn 300ms ease both;
+  }
+  #promo-overlay.promo-exit {
+    animation: overlayIn 250ms ease-in reverse both;
+  }
+
+  /* Modal container */
+  #promo-modal {
+    width: 520px;
+    max-width: 92vw;
+    background: linear-gradient(145deg, #0D1117 0%, #0A1628 100%);
+    border: 1px solid rgba(0,180,216,0.35);
+    border-radius: 20px;
+    box-shadow:
+      0 0 0 1px rgba(0,180,216,0.1),
+      0 25px 60px rgba(0,0,0,0.6),
+      0 0 80px rgba(0,180,216,0.08);
+    padding: 40px 44px;
+    position: relative;
+    animation: popupEnter 400ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    max-height: 92vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,180,216,0.2) transparent;
+  }
+  #promo-modal.promo-exit {
+    animation: popupExit 250ms ease-in both;
+  }
+
+  /* Badge urgencia */
+  .promo-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,180,216,0.12);
+    border: 1px solid rgba(0,180,216,0.4);
+    color: #00B4D8;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin: 0 auto 20px;
+    animation: glowPulse 2s infinite;
+  }
+  .promo-badge-wrap {
+    display: flex; justify-content: center;
+  }
+
+  /* SVG mockup */
+  .promo-svg-wrap {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex; justify-content: center;
+  }
+  .promo-svg-wrap svg {
+    width: 100%;
+    max-height: 180px;
+    filter: drop-shadow(0 8px 24px rgba(0,180,216,0.2));
+  }
+
+  /* Precios */
+  .promo-price-section {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .promo-price-old {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    color: #8B949E;
+    text-decoration: line-through;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .promo-price-row {
+    display: flex; align-items: flex-end; justify-content: center; gap: 6px;
+  }
+  .promo-price-big {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 52px;
+    font-weight: 800;
+    color: #00B4D8;
+    text-shadow: 0 0 30px rgba(0,180,216,0.4);
+    line-height: 1;
+  }
+  .promo-price-unit {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    color: #8B949E;
+    padding-bottom: 8px;
+  }
+  .promo-price-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #8B949E;
+    margin-top: 6px;
+  }
+
+  /* Beneficios */
+  .promo-benefits-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    color: #F0F6FC;
+    font-weight: 600;
+    margin-bottom: 16px;
+    margin-top: 4px;
+  }
+  .promo-benefits {
+    list-style: none;
+    margin-bottom: 24px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .promo-benefits li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #8B949E;
+    opacity: 0;
+    animation: checkIn 300ms ease both;
+  }
+  .promo-check {
+    color: #39D353;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Countdown */
+  .promo-countdown-wrap {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .promo-countdown-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #8B949E;
+    margin-bottom: 10px;
+  }
+  .promo-countdown {
+    display: inline-flex; align-items: flex-start; gap: 4px;
+    background: rgba(227,179,65,0.08);
+    border-radius: 10px;
+    padding: 12px 20px;
+  }
+  .promo-cd-unit {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .promo-cd-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    color: #E3B341;
+    line-height: 1;
+    font-weight: 400;
+  }
+  .promo-cd-lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #8B949E;
+    margin-top: 4px;
+  }
+  .promo-cd-sep {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    color: #E3B341;
+    padding: 0 2px;
+    line-height: 1;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  /* Botones */
+  .promo-btn-primary {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; height: 54px;
+    background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
+    border: none; border-radius: 12px;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0,180,216,0.35);
+    transition: all 200ms ease;
+  }
+  .promo-btn-primary:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 12px 40px rgba(0,180,216,0.55);
+    transform: scale(1.01);
+  }
+  .promo-btn-primary:active { transform: scale(0.99); }
+
+  .promo-btn-secondary {
+    display: block;
+    width: 100%; height: 42px;
+    background: transparent; border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; color: #8B949E;
+    cursor: pointer;
+    transition: all 200ms ease;
+    margin-top: 16px;
+  }
+  .promo-btn-secondary:hover {
+    text-decoration: underline;
+    color: #F0F6FC;
+  }
+
+  /* Nota legal */
+  .promo-legal {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #4B5563;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 16px;
+  }
+
+  /* Toast */
+  #promo-toast {
+    position: fixed; top: 20px; right: 20px;
+    z-index: 10000;
+    background: rgba(57,211,83,0.15);
+    border: 1px solid #39D353;
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #39D353;
+    max-width: 340px;
+    animation: toastIn 300ms ease both;
+  }
+  #promo-toast.toast-hide {
+    animation: toastOut 300ms ease both;
+  }
+
+  /* Banner oferta activa */
+  #promo-banner {
+    background: rgba(57,211,83,0.08);
+    border-bottom: 1px solid rgba(57,211,83,0.2);
+    padding: 10px 24px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #39D353;
+    position: relative;
+  }
+  #promo-banner-close {
+    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+    background: none; border: none;
+    color: #39D353; font-size: 16px;
+    cursor: pointer; opacity: 0.7; line-height: 1;
+  }
+  #promo-banner-close:hover { opacity: 1; }
+
+  /* Oferta activa en tarjeta de precio */
+  .price-card.promo-active .price-num {
+    position: relative;
+  }
+  .promo-price-badge {
+    display: inline-block;
+    background: rgba(57,211,83,0.15);
+    border: 1px solid #39D353;
+    color: #39D353;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 3px 10px; border-radius: 100px;
+    margin-bottom: 8px;
+  }
+  .price-num-original {
+    font-size: 18px;
+    color: #8B949E;
+    text-decoration: line-through;
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .price-promo-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #8B949E;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 560px) {
+    #promo-modal { padding: 28px 20px; }
+    .promo-price-big { font-size: 40px; }
+    .promo-cd-num { font-size: 22px; }
+  }
 </style>
 </head>
 <body>
@@ -1561,6 +1890,12 @@
     </a>
   </div>
 </nav>
+
+<!-- banner oferta activa — gestionado por JS del popup -->
+<div id="promo-banner" style="display:none;" role="status" aria-live="polite">
+  <span>✓ Estás disfrutando la oferta especial: <strong>$99 MXN/mes</strong> · Te quedan <strong>2 meses</strong> a precio promocional</span>
+  <button id="promo-banner-close" onclick="document.getElementById('promo-banner').style.display='none'" aria-label="Ocultar banner de oferta">×</button>
+</div>
 
 <!-- ── HERO ── -->
 <section id="hero" class="page-section" aria-labelledby="hero-heading">
@@ -2085,6 +2420,147 @@
   </div>
 </div>
 
+<!-- ── PROMO POPUP ── -->
+<div id="promo-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="promo-title">
+  <div id="promo-modal">
+
+    <!-- Badge urgencia -->
+    <div class="promo-badge-wrap">
+      <span class="promo-badge">⚡ OFERTA POR TIEMPO LIMITADO</span>
+    </div>
+
+    <!-- SVG mockup dashboard -->
+    <div class="promo-svg-wrap" aria-hidden="true">
+      <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vista previa del dashboard ADS PLUS">
+        <!-- Fondo principal -->
+        <rect width="480" height="180" rx="12" fill="#111827"/>
+        <!-- Sidebar -->
+        <rect x="0" y="0" width="72" height="180" rx="12" fill="#0C1221"/>
+        <rect x="0" y="0" width="12" height="180" fill="#0C1221"/>
+        <!-- Logo sidebar -->
+        <circle cx="36" cy="28" r="12" stroke="#00B4D8" stroke-width="2" fill="none"/>
+        <line x1="30" y1="34" x2="33" y2="22" stroke="#00B4D8" stroke-width="3" stroke-linecap="round"/>
+        <line x1="42" y1="34" x2="39" y2="22" stroke="#00B4D8" stroke-width="3" stroke-linecap="round"/>
+        <!-- Nav items sidebar -->
+        <rect x="16" y="50" width="40" height="6" rx="3" fill="#0077B6" opacity="0.9"/>
+        <rect x="16" y="66" width="40" height="6" rx="3" fill="#1A2233"/>
+        <rect x="16" y="82" width="40" height="6" rx="3" fill="#1A2233"/>
+        <rect x="16" y="98" width="40" height="6" rx="3" fill="#1A2233"/>
+        <rect x="16" y="114" width="40" height="6" rx="3" fill="#1A2233"/>
+        <!-- Header top bar -->
+        <rect x="72" y="0" width="408" height="36" fill="#0C1221"/>
+        <rect x="88" y="12" width="100" height="6" rx="3" fill="#1A2233"/>
+        <rect x="420" y="10" width="44" height="16" rx="8" fill="#00B4D8" opacity="0.9"/>
+        <!-- KPI cards row -->
+        <rect x="84" y="46" width="88" height="52" rx="8" fill="#0C1221" stroke="#0077B6" stroke-width="1" stroke-opacity="0.4"/>
+        <rect x="84" y="52" width="40" height="4" rx="2" fill="#1A2233"/>
+        <text x="88" y="88" font-family="monospace" font-size="14" font-weight="bold" fill="#00B4D8">$24.5k</text>
+
+        <rect x="182" y="46" width="88" height="52" rx="8" fill="#0C1221" stroke="#0077B6" stroke-width="1" stroke-opacity="0.4"/>
+        <rect x="182" y="52" width="40" height="4" rx="2" fill="#1A2233"/>
+        <text x="186" y="88" font-family="monospace" font-size="14" font-weight="bold" fill="#39D353">↑ 18%</text>
+
+        <rect x="280" y="46" width="88" height="52" rx="8" fill="#0C1221" stroke="#0077B6" stroke-width="1" stroke-opacity="0.4"/>
+        <rect x="280" y="52" width="40" height="4" rx="2" fill="#1A2233"/>
+        <text x="284" y="88" font-family="monospace" font-size="14" font-weight="bold" fill="#F0F6FC">4,821</text>
+
+        <rect x="378" y="46" width="88" height="52" rx="8" fill="#0C1221" stroke="#0077B6" stroke-width="1" stroke-opacity="0.4"/>
+        <rect x="378" y="52" width="40" height="4" rx="2" fill="#1A2233"/>
+        <text x="382" y="88" font-family="monospace" font-size="14" font-weight="bold" fill="#E3B341">$1.24</text>
+
+        <!-- Gráfica de barras -->
+        <rect x="84" y="108" width="190" height="60" rx="8" fill="#0C1221" stroke="#1A2233" stroke-width="1"/>
+        <!-- barras -->
+        <rect x="96"  y="140" width="10" height="20" rx="2" fill="#0077B6" opacity="0.7"/>
+        <rect x="112" y="132" width="10" height="28" rx="2" fill="#00B4D8" opacity="0.85"/>
+        <rect x="128" y="136" width="10" height="24" rx="2" fill="#0077B6" opacity="0.7"/>
+        <rect x="144" y="126" width="10" height="34" rx="2" fill="#00B4D8"/>
+        <rect x="160" y="130" width="10" height="30" rx="2" fill="#0077B6" opacity="0.7"/>
+        <rect x="176" y="120" width="10" height="40" rx="2" fill="#39D353" opacity="0.9"/>
+        <rect x="192" y="128" width="10" height="32" rx="2" fill="#00B4D8" opacity="0.8"/>
+        <rect x="208" y="122" width="10" height="38" rx="2" fill="#39D353"/>
+        <rect x="224" y="118" width="10" height="42" rx="2" fill="#39D353"/>
+        <rect x="240" y="112" width="10" height="48" rx="2" fill="#39D353" opacity="0.9"/>
+        <!-- Línea sparkline -->
+        <polyline points="96,148 112,136 128,140 144,130 160,134 176,124 192,132 208,126 224,122 240,116"
+          fill="none" stroke="#00B4D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+
+        <!-- Panel lateral derecho -->
+        <rect x="284" y="108" width="182" height="60" rx="8" fill="#0C1221" stroke="#1A2233" stroke-width="1"/>
+        <rect x="296" y="118" width="60" height="4" rx="2" fill="#1A2233"/>
+        <rect x="296" y="128" width="158" height="3" rx="1.5" fill="#1A2233"/>
+        <rect x="296" y="128" width="110" height="3" rx="1.5" fill="#00B4D8" opacity="0.7"/>
+        <rect x="296" y="137" width="158" height="3" rx="1.5" fill="#1A2233"/>
+        <rect x="296" y="137" width="80" height="3" rx="1.5" fill="#39D353" opacity="0.7"/>
+        <rect x="296" y="146" width="158" height="3" rx="1.5" fill="#1A2233"/>
+        <rect x="296" y="146" width="130" height="3" rx="1.5" fill="#0077B6" opacity="0.7"/>
+        <rect x="296" y="155" width="158" height="3" rx="1.5" fill="#1A2233"/>
+        <rect x="296" y="155" width="60" height="3" rx="1.5" fill="#E3B341" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <!-- Precio -->
+    <div class="promo-price-section">
+      <div class="promo-price-old">Precio normal: $299 MXN/mes</div>
+      <div class="promo-price-row">
+        <span class="promo-price-big" id="promo-title">$99</span>
+        <span class="promo-price-unit">MXN / mes</span>
+      </div>
+      <div class="promo-price-sub">durante tus primeros 2 meses</div>
+    </div>
+
+    <!-- Beneficios -->
+    <p class="promo-benefits-title">Todo lo que incluye tu plan ADS PLUS</p>
+    <ul class="promo-benefits" id="promo-benefits-list">
+      <li><span class="promo-check">✓</span> Acceso completo al Dashboard de campañas</li>
+      <li><span class="promo-check">✓</span> Gestión ilimitada de campañas activas</li>
+      <li><span class="promo-check">✓</span> Reportes avanzados con exportación a PDF</li>
+      <li><span class="promo-check">✓</span> Integración con Meta Ads, Google Ads y TikTok Ads</li>
+      <li><span class="promo-check">✓</span> Soporte prioritario por chat y correo</li>
+      <li><span class="promo-check">✓</span> Sin contratos — cancela cuando quieras</li>
+      <li><span class="promo-check">✓</span> Los primeros 2 meses a $99 MXN, luego $299 MXN/mes</li>
+    </ul>
+
+    <!-- Countdown -->
+    <div class="promo-countdown-wrap">
+      <div class="promo-countdown-label">Esta oferta expira en:</div>
+      <div class="promo-countdown" role="timer" aria-live="off">
+        <div class="promo-cd-unit">
+          <span class="promo-cd-num" id="cd-hrs">23</span>
+          <span class="promo-cd-lbl">hrs</span>
+        </div>
+        <span class="promo-cd-sep">:</span>
+        <div class="promo-cd-unit">
+          <span class="promo-cd-num" id="cd-min">59</span>
+          <span class="promo-cd-lbl">min</span>
+        </div>
+        <span class="promo-cd-sep">:</span>
+        <div class="promo-cd-unit">
+          <span class="promo-cd-num" id="cd-sec">47</span>
+          <span class="promo-cd-lbl">seg</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <button class="promo-btn-primary" id="promo-accept" aria-label="Aceptar oferta especial">
+      ¡Lo quiero ahora! →
+    </button>
+    <button class="promo-btn-secondary" id="promo-decline" aria-label="Rechazar oferta">
+      No me interesa
+    </button>
+
+    <!-- Nota legal -->
+    <p class="promo-legal">
+      *Oferta válida para nuevas cuentas. Al finalizar los 2 meses promocionales,
+      se cobra automáticamente $299 MXN/mes. Cancela cuando quieras sin penalización.
+    </p>
+  </div>
+</div>
+
+<!-- ── TOAST OFERTA ── -->
+<div id="promo-toast" style="display:none;" role="alert" aria-live="assertive"></div>
+
 <!-- ── WHATSAPP FLOAT ── -->
 <a href="https://wa.me/523334656129" target="_blank" rel="noopener" class="wa-float" aria-label="Contactar por WhatsApp">
   <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2247,6 +2723,140 @@
       document.getElementById('tweaks-panel').style.display = 'none';
   });
   window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+  /* ── PROMO POPUP ── */
+  (function () {
+    var STORAGE_KEY = 'adsplus_promo_seen';
+    var overlay     = document.getElementById('promo-overlay');
+    var modal       = document.getElementById('promo-modal');
+    var banner      = document.getElementById('promo-banner');
+    var toast       = document.getElementById('promo-toast');
+    var acceptBtn   = document.getElementById('promo-accept');
+    var declineBtn  = document.getElementById('promo-decline');
+    var benefits    = document.querySelectorAll('#promo-benefits-list li');
+
+    /* ---------- Countdown ---------- */
+    var cdEnd = Date.now() + 24 * 60 * 60 * 1000; /* 24 h desde carga */
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tickCountdown() {
+      var diff = Math.max(0, Math.floor((cdEnd - Date.now()) / 1000));
+      var h = Math.floor(diff / 3600);
+      var m = Math.floor((diff % 3600) / 60);
+      var s = diff % 60;
+      document.getElementById('cd-hrs').textContent = pad(h);
+      document.getElementById('cd-min').textContent = pad(m);
+      document.getElementById('cd-sec').textContent = pad(s);
+    }
+    var cdInterval;
+
+    /* ---------- Stagger de beneficios ---------- */
+    function animateBenefits() {
+      benefits.forEach(function (li, i) {
+        li.style.animationDelay = (i * 60) + 'ms';
+      });
+    }
+
+    /* ---------- Mostrar popup ---------- */
+    function showPopup() {
+      if (localStorage.getItem(STORAGE_KEY)) return;
+      overlay.style.display = 'flex';
+      animateBenefits();
+      tickCountdown();
+      cdInterval = setInterval(tickCountdown, 1000);
+      trapFocus(modal);
+    }
+
+    /* ---------- Cerrar popup ---------- */
+    function closePopup(accepted) {
+      modal.classList.add('promo-exit');
+      overlay.classList.add('promo-exit');
+      setTimeout(function () {
+        overlay.style.display = 'none';
+        modal.classList.remove('promo-exit');
+        overlay.classList.remove('promo-exit');
+      }, 260);
+      clearInterval(cdInterval);
+      localStorage.setItem(STORAGE_KEY, 'true');
+      if (accepted) {
+        applyPromo();
+      }
+    }
+
+    /* ---------- Aplicar oferta ---------- */
+    function applyPromo() {
+      /* 1. Banner top */
+      banner.style.display = 'flex';
+
+      /* 2. Tarjeta de precios */
+      var priceCard = document.querySelector('.price-card');
+      if (priceCard) {
+        priceCard.classList.add('promo-active');
+        var numEl = priceCard.querySelector('.price-num');
+        if (numEl) {
+          numEl.innerHTML =
+            '<span class="promo-price-badge">OFERTA ACTIVA — 2 MESES</span>' +
+            '<div class="price-num-original">$299 MXN/mes</div>' +
+            '<sup>$</sup>99<span class="price-period"> MXN / mes</span>' +
+            '<div class="price-promo-sub">Luego $299 MXN/mes · Sin contratos</div>';
+        }
+      }
+
+      /* 3. Scroll a sección precio */
+      var precioSection = document.getElementById('precio');
+      if (precioSection) {
+        setTimeout(function () {
+          precioSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+
+      /* 4. Toast */
+      showToast('🎉 ¡Oferta aplicada! Estás pagando $99 MXN/mes por 2 meses');
+    }
+
+    /* ---------- Toast ---------- */
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      toast.classList.remove('toast-hide');
+      setTimeout(function () {
+        toast.classList.add('toast-hide');
+        setTimeout(function () { toast.style.display = 'none'; }, 320);
+      }, 5000);
+    }
+
+    /* ---------- Trap focus ---------- */
+    function trapFocus(el) {
+      var focusable = el.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      var first = focusable[0];
+      var last  = focusable[focusable.length - 1];
+      el.addEventListener('keydown', function handler(e) {
+        if (e.key !== 'Tab') return;
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+        }
+        if (!overlay.style.display || overlay.style.display === 'none') {
+          el.removeEventListener('keydown', handler);
+        }
+      });
+      setTimeout(function () { if (acceptBtn) acceptBtn.focus(); }, 420);
+    }
+
+    /* ---------- ESC = decline ---------- */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.style.display !== 'none') {
+        closePopup(false);
+      }
+    });
+
+    /* ---------- Botones ---------- */
+    acceptBtn.addEventListener('click', function () { closePopup(true); });
+    declineBtn.addEventListener('click', function () { closePopup(false); });
+
+    /* ---------- Disparar a los 5s ---------- */
+    setTimeout(showPopup, 5000);
+  })();
 </script>
 </body>
 </html>
